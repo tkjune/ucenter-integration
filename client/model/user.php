@@ -152,6 +152,13 @@ class usermodel {
 			return -1;
 		}
 
+		if ($email) {
+			$isemailoccupied = $this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."members WHERE username<>'$username' AND email='$email'");
+			if ($isemailoccupied) {
+				return -6;
+			}
+		}
+
 		$sqladd = $newpw ? "password='".md5(md5($newpw).$data['salt'])."'" : '';
 		$sqladd .= $email ? ($sqladd ? ',' : '')." email='$email'" : '';
 		if($questionid !== '') {
